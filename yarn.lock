@@ -1576,16 +1576,6 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
 
-codegen-graph-ts@./:
-  version "0.1.2"
-  dependencies:
-    "@synthetixio/wei" "^2.47.0-ovm.5"
-    axios "^0.24.0"
-    commander "^8.1.0"
-    graphql "^15.5.1"
-    graphql-request "^3.5.0"
-    lodash "^4.17.21"
-
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/collect-v8-coverage/-/collect-v8-coverage-1.0.1.tgz#cc2c8e94fc18bbdffe64d6534570c8a673b27f59"
