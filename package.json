@@ -1,6 +1,6 @@
 {
-  "name": "codegen-graph-ts",
-  "version": "0.1.2",
+  "name": "@nevermined-io/codegen-graph-ts",
+  "version": "0.1.3",
   "description": "Generate typescript request library for any subgraph based on its entity definition",
   "main": "build/src/index.js",
   "scripts": {
@@ -30,7 +30,6 @@
     "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.172",
     "@types/node-fetch": "^2.5.12",
-    "codegen-graph-ts": ".",
     "eval": "^0.1.6",
     "jest": "^27.0.6",
     "react-dom": "^17.0.2",
