@@ -1,4 +1,4 @@
-import { Entity } from "../types";
+import { Entity, Field } from "../types";
 import { convertType, mapType } from "../util";
 
 /**
@@ -21,7 +21,7 @@ export type MultiQueryOptions<T, R> = {
     where?: T,
     block?: { 'number': number }|{ hash: string },
     orderBy?: keyof R,
-    orderDirection?: 'asc'|'desc' 
+    orderDirection?: 'asc'|'desc'
 };
 
 const MAX_PAGE = 1000;
@@ -29,7 +29,7 @@ const MAX_PAGE = 1000;
 }
 
 function queryFunctionName(e: Entity) {
-    return e.name.replace(/^./, e.name[0].toLowerCase());
+    return e.name;
 }
 
 function injectParse(e: Entity) {
@@ -54,7 +54,7 @@ function injectParse(e: Entity) {
 /**
  * Generates an async function body for fetching and parsing query options
  */
-export function multiBody(e: Entity) {
+export function multiBody(e: Entity, funcNames?: string) {
 return `async function<K extends keyof ${e.name}Result>(url: string, options: MultiQueryOptions<${e.name}Filter, ${e.name}Result>, args: ${e.name}Args<K>): Promise<Pick<${e.name}Result, K>[]> {
 
     const paginatedOptions: Partial<MultiQueryOptions<${e.name}Filter, ${e.name}Result>> = { ...options };
@@ -79,7 +79,7 @@ return `async function<K extends keyof ${e.name}Result>(url: string, options: Mu
         if (paginationKey && paginationValue) paginatedOptions.where![paginationKey] = paginationValue as any;
 
         const res = await axios.post(url, {
-            query: generateGql('${queryFunctionName(e)}s', paginatedOptions, args)
+            query: generateGql('${funcNames}', paginatedOptions, args)
         });
 
         const r = res.data as any;
@@ -100,7 +100,7 @@ return `async function<K extends keyof ${e.name}Result>(url: string, options: Mu
         if (newResults.length < 1000) {
             break;
         }
-        
+
         if (paginationKey) {
             paginationValue = rawResults[rawResults.length - 1][paginatedOptions.orderBy!];
         }
@@ -113,10 +113,10 @@ return `async function<K extends keyof ${e.name}Result>(url: string, options: Mu
 /**
  * Generates an async function body for fetching and parsing query options
  */
-export function singleBody(e: Entity) {
+export function singleBody(e: Entity, funcName?: string) {
 return `async function<K extends keyof ${e.name}Result>(url: string, options: SingleQueryOptions, args: ${e.name}Args<K>): Promise<Pick<${e.name}Result, K>> {
     const res = await axios.post(url, {
-        query: generateGql('${queryFunctionName(e)}', options, args)
+        query: generateGql('${funcName}', options, args)
     });
 
     const r = res.data as any;
