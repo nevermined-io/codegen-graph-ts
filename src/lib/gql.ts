@@ -14,10 +14,10 @@ function formatGqlOptions(options: GqlOptions): string {
             valueString = `{${formatGqlOptions(v)}}`;
         } else if (_.isNil(v)) {
             valueString = 'null';
-        } else if (v[1] == 'x' || _.isNaN(parseFloat(v.toString()))) {
-            valueString = `"${v}"`;
-        } else valueString = v;
-        
+        } else if (_.isArray(v)) {
+            valueString = '[' + v.map(e => `"${e}"`).join(',') + ']'
+        } else valueString = `"${v}"`;
+
         return `${k}:${valueString}`;
     }).join(',');
 }
